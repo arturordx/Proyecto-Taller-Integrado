@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Datos de Calidad del Vino{% endblock %}
+
+{% block content %}
+
+
+<!-- Texto descriptivo -->
+<p>
+    <strong>
+        Se incluyen dos conjuntos de datos relacionados con muestras de vino verde tinto y blanco del norte de Portugal. El objetivo es modelar la calidad del vino basándose en pruebas fisicoquímicas (véase <a href="http://www3.dsi.uminho.pt/pcortez/wine/" target="_blank">Cortez et al., 2009</a>).
+    </strong>
+
+</p>
+
+<!-- Información del conjunto de datos -->
+<p>
+  <h3>Información:</h3>
+</p>
+<p>
+  Los dos conjuntos de datos están relacionados con las variantes roja y blanca del vino portugués "Vinho Verde". Para más detalles, consulte: <a href="http://www.vinhoverde.pt/en/" target="_blank">Vinho Verde</a> o la referencia <a href="http://www3.dsi.uminho.pt/pcortez/wine/" target="_blank">Cortez et al., 2009</a>. Debido a cuestiones de privacidad y logística, solo están disponibles las variables fisicoquímicas (entradas) y sensoriales (salida) (por ejemplo, no hay datos sobre tipos de uva, marca de vino, precio de venta del vino, etc.). Estos conjuntos de datos pueden considerarse como tareas de clasificación o regresión. Las clases están ordenadas y no equilibradas (por ejemplo, hay muchos más vinos normales que excelentes o malos). Se podrían utilizar algoritmos de detección de valores atípicos para detectar los pocos vinos excelentes o malos. Además, no estamos seguros de si todas las variables de entrada son relevantes. Por lo tanto, podría ser interesante probar métodos de selección de características.
+</p>
+
+<!-- Contenedor para el formulario -->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <!-- Formulario de selección de ordenación -->
+      <form method="get" action="/" class="form-inline">
+        <div class="form-group mr-2">
+          <label for="sort_by" class="mr-2">Ordenar por  Tipo:</label>
+          <select name="sort_by" id="sort_by" class="form-control form-control-sm">
+            {% for column, column_spanish in columns_in_spanish.items() %}
+              <option value="{{ column }}" {% if column == sort_by %}selected{% endif %}>{{ column_spanish }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group mr-2">
+          <label for="order_by" class="mr-2">       </label>
+          <select name="order_by" id="order_by" class="form-control form-control-sm">
+            <option value="asc" {% if order_by == 'asc' %}selected{% endif %}>Ascendente</option>
+            <option value="desc" {% if order_by == 'desc' %}selected{% endif %}>Descendente</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">Aplicar</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Tabla de datos -->
+<table class="table table-striped mt-3">
+  <thead class="thead-dark">
+    <tr>
+      {% for col, col_spanish in columns_in_spanish.items() %}
+        <th scope="col">{{ col_spanish }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in data %}
+    <tr>
+      {% for col, col_spanish in columns_in_spanish.items() %}
+        <td>{{ row[col] }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Paginación -->
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <!-- Página anterior -->
+    {% if page > 1 %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page - 1 }}&sort_by={{ sort_by }}&order_by={{ order_by }}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+    {% endif %}
+    
+    <!-- Páginas -->
+    {% for p in range(1, total_pages + 1) %}
+      {% if p == page %}
+        <li class="page-item active"><span class="page-link">{{ p }}</span></li>
+      {% elif p == 1 or p == total_pages or (p >= page - 2 and p <= page + 2) %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ p }}&sort_by={{ sort_by }}&order_by={{ order_by }}">{{ p }}</a>
+        </li>
+      {% elif p == page - 3 or p == page + 3 %}
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+      {% endif %}
+    {% endfor %}
+
+    <!-- Página siguiente -->
+    {% if page < total_pages %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page + 1 }}&sort_by={{ sort_by }}&order_by={{ order_by }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}

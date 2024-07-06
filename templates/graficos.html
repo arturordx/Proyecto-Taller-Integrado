@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Gráficos{% endblock %}
+
+{% block content %}
+<h2>Gráficos Interactivos</h2>
+
+
+<div id="charts">
+    <div id="chart1" style="width: 100%; height: 400px;"></div>
+    <div id="chart2" style="width: 100%; height: 400px;"></div>
+    <div id="chart3" style="width: 100%; height: 400px;"></div>
+    <div id="chart4" style="width: 100%; height: 400px;"></div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+    // Datos del gráfico de barras
+    var trace1 = {
+        x: {{ data_red_wine['fixed acidity'] | tojson }},
+        y: {{ data_red_wine['quality'] | tojson }},
+        type: 'bar',
+        name: 'Vino Tinto'
+    };
+
+    var trace2 = {
+        x: {{ data_white_wine['fixed acidity'] | tojson }},
+        y: {{ data_white_wine['quality'] | tojson }},
+        type: 'bar',
+        name: 'Vino Blanco'
+    };
+
+    var data1 = [trace1, trace2];
+    
+    Plotly.newPlot('chart1', data1, {
+        title: 'Acidez Fija vs Calidad del Vino',
+        xaxis: { title: 'Acidez Fija' },
+        yaxis: { title: 'Calidad' }
+    });
+
+    // Datos del gráfico de dispersión interactivo
+    var trace3 = {
+        x: {{ data_combined['fixed acidity'] | tojson }},
+        y: {{ data_combined['residual sugar'] | tojson }},
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+            size: {{ data_combined['quality'] | tojson }},
+            color: {{ data_combined['quality'] | tojson }},
+            colorscale: 'Viridis',
+            colorbar: { title: 'Calidad' }
+        },
+        text: {{ data_combined['type'] | tojson }},
+        name: 'Datos Combinados'
+    };
+
+    var data2 = [trace3];
+    
+    Plotly.newPlot('chart2', data2, {
+        title: 'Acidez Fija vs Azúcar Residual',
+        xaxis: { title: 'Acidez Fija' },
+        yaxis: { title: 'Azúcar Residual' }
+    });
+
+    // Datos del histograma de distribución de alcohol por tipo de vino
+    var trace5 = {
+        x: {{ alcohol_data_red | tojson }},
+        type: 'histogram',
+        name: 'Vino Tinto',
+        marker: { color: 'rgba(255, 0, 0, 0.5)' },
+        xbins: { size: 0.5 }
+    };
+
+    var trace6 = {
+        x: {{ alcohol_data_white | tojson }},
+        type: 'histogram',
+        name: 'Vino Blanco',
+        marker: { color: 'rgba(0, 0, 255, 0.5)' },
+        xbins: { size: 0.5 }
+    };
+
+    var data4 = [trace5, trace6];
+    
+    Plotly.newPlot('chart4', data4, {
+        title: 'Distribución del Alcohol en Vino por Tipo',
+        xaxis: { title: 'Contenido de Alcohol (%)' },
+        yaxis: { title: 'Frecuencia' },
+        barmode: 'overlay'
+    });
+
+    // Datos del gráfico de calor
+    var trace4 = {
+        z: {{ heatmap_data | tojson }},
+        x: {{ columns | tojson }},
+        y: {{ columns | tojson }},
+        type: 'heatmap',
+        colorscale: 'Viridis'
+    };
+
+    var data3 = [trace4];
+    
+    Plotly.newPlot('chart3', data3, {
+        title: 'Mapa de Calor de Correlación',
+        xaxis: { title: 'Variables' },
+        yaxis: { title: 'Variables' }
+    });
+</script>
+{% endblock %}

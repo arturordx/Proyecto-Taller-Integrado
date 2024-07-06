@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Información{% endblock %}
+
+{% block content %}
+<h2>Información del Conjunto de Datos</h2>
+
+<p>Los conjuntos de datos utilizados en este proyecto están relacionados con el vino verde tinto y blanco de Portugal, conocido como "Vinho Verde". Estos datos fueron proporcionados por [Cortez et al., 2009](http://www3.dsi.uminho.pt/pcortez/wine/).</p>
+
+<h3>Descripción del Dataset</h3>
+<p>El dataset contiene información sobre diversas características fisicoquímicas de los vinos y la calidad asignada a cada muestra. La información está dividida en dos archivos CSV, uno para vino tinto y otro para vino blanco.</p>
+
+<h3>Características de los Datos</h3>
+<ul>
+    <li><strong>Acidez fija:</strong> Medida de la acidez no volátil en el vino.</li>
+    <li><strong>Acidez volátil:</strong> Medida de la acidez volátil en el vino.</li>
+    <li><strong>Ácido cítrico:</strong> Contenido de ácido cítrico en el vino.</li>
+    <li><strong>Azúcar residual:</strong> Cantidad de azúcar que queda después de la fermentación.</li>
+    <li><strong>Cloruros:</strong> Nivel de cloruros en el vino.</li>
+    <li><strong>Dióxido de azufre libre:</strong> Cantidad de dióxido de azufre libre presente en el vino.</li>
+    <li><strong>Dióxido de azufre total:</strong> Cantidad total de dióxido de azufre en el vino.</li>
+    <li><strong>Densidad:</strong> Densidad del vino.</li>
+    <li><strong>pH:</strong> Nivel de pH del vino.</li>
+    <li><strong>Sulfatos:</strong> Contenido de sulfatos en el vino.</li>
+    <li><strong>Alcohol:</strong> Porcentaje de alcohol en el vino.</li>
+    <li><strong>Calidad:</strong> Evaluación de la calidad del vino en una escala de 0 a 10.</li>
+    <li><strong>Tipo:</strong> Tipo de vino (tinto o blanco).</li>
+</ul>
+
+<h3>Objetivo del Proyecto</h3>
+<p>El objetivo de este proyecto es analizar y modelar la calidad del vino utilizando los datos disponibles. Se han incluido varios tipos de gráficos para explorar las relaciones entre las características fisicoquímicas y la calidad del vino.</p>
+
+<h3>Referencias</h3>
+<p>Todos los datos fueron descargados del sitio Repositorio de aprendizaje automático de la UCI. <a href="https://www.archive.ics.uci.edu/dataset/186/wine+quality">Repositorio UCI</a>.</p>
+
+<p>Para más información sobre el "Vinho Verde" y los datos utilizados en este proyecto, consulte el siguiente enlace: <a href="http://www.vinhoverde.pt/en/">Vinho Verde</a>.</p>
+
+<p>También puede revisar el artículo de referencia: <a href="http://www3.dsi.uminho.pt/pcortez/wine/">Cortez et al., 2009</a>.</p>
+{% endblock %}
